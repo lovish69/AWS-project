@@ -1,10 +1,7 @@
 # AWS-project
 
 ## Overview  
-This documentation covers the entire process of setting up an AWS account, enabling security measures, managing budgets, and implementing services such as Athena, S3, CloudTrail, GuardDuty, and AWS Glue for security analysis.
-
-[Uploading saws.drawio…]()
-
+This project sets up a secure AWS environment to *log, monitor, and analyze security events* using AWS services such as *CloudTrail, S3, AWS Glue, Athena, and GuardDuty*.
 
 ---
 
@@ -15,82 +12,72 @@ This documentation covers the entire process of setting up an AWS account, enabl
    - IAM User Creation
    - Setting Up a Budget
 3. [Services Used](#services-used)
-   - S3 (Simple Storage Service)
-   - CloudTrail
-   - AWS Glue
-   - Athena
-   - GuardDuty
 4. [Implementation Steps](#implementation-steps)
-   - Setting Up Logging with CloudTrail
+   - CloudTrail Logging
    - Storing Logs in S3
-   - Processing Data with AWS Glue
-   - Querying Logs Using Athena
-   - Threat Detection with GuardDuty
+   - Data Processing with AWS Glue
+   - Querying Logs with Athena
+   - Threat Detection using GuardDuty
 5. [Architecture Diagram](#architecture-diagram)
+6. [Next Steps](#next-steps)
 
 ---
 
 ## AWS Account Setup
 
 1. *Create an AWS Account*  
-   - Visit [AWS Console](https://aws.amazon.com/) and sign up.
-   - Provide billing details and complete verification.
+   - Go to [AWS Console](https://aws.amazon.com/).
+   - Sign up and verify your account.
 
 2. *Enable Multi-Factor Authentication (MFA)*  
-   - Go to *IAM > Users > Security Credentials*.
-   - Click *Manage MFA* and set up a virtual MFA device (Google Authenticator).
+   - Navigate to *IAM > Users > Security Credentials*.
+   - Click *Manage MFA* and set up a virtual MFA device.
 
 3. *Create IAM Users and Roles*  
-   - Create an IAM user with limited permissions for daily operations.
-   - Assign necessary policies (AmazonS3ReadOnlyAccess, AWSCloudTrailReadOnlyAccess, etc.).
+   - Create a *least-privilege IAM user* with permissions:  
+     - AmazonS3ReadOnlyAccess
+     - AWSCloudTrailReadOnlyAccess
+     - AthenaFullAccess
 
 4. *Set Up AWS Budgets*  
-   - Navigate to *Billing > Budgets*.
-   - Set a monthly budget and configure notifications for cost monitoring.
+   - Go to *Billing > Budgets*.
+   - Set a monthly budget with alerts.
 
 ---
 
 ## Services Used  
 
-1. *Amazon S3*  
-   - Stores CloudTrail logs securely.  
-
-2. *AWS CloudTrail*  
-   - Records all API activity within AWS for security auditing.
-
-3. *AWS Glue*  
-   - Processes and catalogs log data.
-
-4. *Amazon Athena*  
-   - Queries logs from S3 using SQL.
-
-5. *Amazon GuardDuty*  
-   - Detects security threats and anomalies.
+| *Service*       | *Purpose* |
+|-------------------|------------|
+| *Amazon S3*     | Stores security logs. |
+| *AWS CloudTrail* | Tracks API activity across AWS. |
+| *AWS Glue*      | Catalogs and prepares log data. |
+| *Amazon Athena* | Queries logs stored in S3. |
+| *Amazon GuardDuty* | Detects security threats. |
 
 ---
 
 ## Implementation Steps  
 
-### 1. Setting Up Logging with CloudTrail  
-- Go to *CloudTrail > Create a new trail*.
+### 1. CloudTrail Logging  
+- Open *AWS CloudTrail > Create a new trail*.
 - Enable logging for *All AWS Regions*.
 - Choose an *S3 bucket* for log storage.
 
 ### 2. Storing Logs in S3  
-- Create an *S3 Bucket* (aws-security-logs).
-- Set permissions for CloudTrail logs.
+- Create an *S3 Bucket* (security-logs-bucket).
+- Set bucket permissions for CloudTrail.
 - Enable *Server-Side Encryption (SSE-S3)*.
 
-### 3. Processing Data with AWS Glue  
-- Create a *Crawler* in AWS Glue.
-- Point it to the S3 bucket storing CloudTrail logs.
-- Run the crawler to create a data catalog.
+### 3. Data Processing with AWS Glue  
+- Open *AWS Glue > Create a Crawler*.
+- Select *S3 bucket* as the data source.
+- Run the crawler to create a database.
 
-### 4. Querying Logs Using Athena  
+### 4. Querying Logs with Athena  
 - Open *Athena > Query Editor*.
-- Create a database:  
+- Create a database:
   ```sql
   CREATE DATABASE security_logs;
-  ```
 ### 5.   
   
